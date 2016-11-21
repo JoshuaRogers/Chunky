@@ -1,5 +1,6 @@
 package net.joshuarogers.chunkymod;
 
+import net.joshuarogers.chunkymod.commands.GenerateSquareCommand;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +25,6 @@ public class ChunkMod
     public void serverStarting(FMLServerStartingEvent event)
     {
         CommandHandler commandManager = (CommandHandler) event.getServer().getCommandManager();
-        //commandManager.registerCommand(new CommandGravity());
+        commandManager.registerCommand(new GenerateSquareCommand());
     }
 }
