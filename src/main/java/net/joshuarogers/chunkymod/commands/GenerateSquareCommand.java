@@ -1,8 +1,10 @@
 package net.joshuarogers.chunkymod.commands;
 
+import net.joshuarogers.chunkymod.ChunkLocation;
 import net.joshuarogers.chunkymod.TickHandler;
 import net.joshuarogers.chunkymod.generators.CircleGenerator;
 import net.joshuarogers.chunkymod.generators.IShapeGenerator;
+import net.joshuarogers.chunkymod.generators.OffsetGenerator;
 import net.joshuarogers.chunkymod.generators.SquareGenerator;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -25,24 +27,21 @@ public class GenerateSquareCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender iCommandSender) {
-        return String.format("/%s <square|> <center-x> <center-z> <#-chunks-radius>", getCommandName());
+        return String.format("/%s <square|circle> <center-x> <center-z> <#-chunks-radius>", getCommandName());
     }
 
     @Override
     public void execute(MinecraftServer minecraftServer, ICommandSender iCommandSender, String[] strings) throws CommandException {
-        minecraftServer.logInfo("Being chunky!");
-        minecraftServer.logInfo(strings[0]);
-        minecraftServer.logInfo(strings.length + "");
-
         String shapeName = strings[SHAPE_POSITION];
-        Vector2d center = new Vector2d(Integer.parseInt(strings[CENTER_X_POSITION], 10),
-                                       Integer.parseInt(strings[CENTER_Z_POSITION], 10));
+        ChunkLocation center = new ChunkLocation(Integer.parseInt(strings[CENTER_X_POSITION], 10),
+                                                 Integer.parseInt(strings[CENTER_Z_POSITION], 10));
         int chunkRadius = Integer.parseInt(strings[CHUNK_RADIUS_POSITION], 10);
 
-        IShapeGenerator generator = buildGenerator(shapeName);
-        generator.reset(chunkRadius);
+        IShapeGenerator shapeGenerator = buildGenerator(shapeName);
+        IShapeGenerator offsetGenerator = new OffsetGenerator(shapeGenerator, center);
+        offsetGenerator.reset(chunkRadius);
 
-        TickHandler tickHandler = new TickHandler(generator);
+        TickHandler tickHandler = new TickHandler(offsetGenerator);
         MinecraftForge.EVENT_BUS.register(tickHandler);
     }
 
