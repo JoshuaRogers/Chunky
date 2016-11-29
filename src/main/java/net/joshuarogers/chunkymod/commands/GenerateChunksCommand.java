@@ -14,7 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import javax.vecmath.Vector2d;
 
-public class GenerateSquareCommand extends CommandBase {
+public class GenerateChunksCommand extends CommandBase {
     private final int SHAPE_POSITION = 0;
     private final int CENTER_X_POSITION = 1;
     private final int CENTER_Z_POSITION = 2;
