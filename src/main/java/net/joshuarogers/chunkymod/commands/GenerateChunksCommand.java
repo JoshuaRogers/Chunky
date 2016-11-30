@@ -33,8 +33,8 @@ public class GenerateChunksCommand extends CommandBase {
     @Override
     public void execute(MinecraftServer minecraftServer, ICommandSender iCommandSender, String[] strings) throws CommandException {
         String shapeName = strings[SHAPE_POSITION];
-        ChunkLocation center = new ChunkLocation(Integer.parseInt(strings[CENTER_X_POSITION], 10),
-                                                 Integer.parseInt(strings[CENTER_Z_POSITION], 10));
+        ChunkLocation center = new ChunkLocation(Integer.parseInt(strings[CENTER_X_POSITION], 10) / 16,
+                                                 Integer.parseInt(strings[CENTER_Z_POSITION], 10) / 16);
         int chunkRadius = Integer.parseInt(strings[CHUNK_RADIUS_POSITION], 10);
 
         IShapeGenerator shapeGenerator = buildGenerator(shapeName);
